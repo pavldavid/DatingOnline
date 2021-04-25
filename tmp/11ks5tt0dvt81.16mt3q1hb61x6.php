@@ -11,7 +11,7 @@
 </head>
 <body>
 <div class="container">
-    <img src="./images/couple.jpg" alt="couple image">
+    <img src="/images/couple.jpg" alt="couple image">
     <h3>HELLO</h3>
 </div>
 
