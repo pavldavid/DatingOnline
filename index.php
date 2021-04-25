@@ -1,5 +1,10 @@
-<?php
+<!--
+Author: David Pavlenko
+Date: 4/24/21
+This is the controller for the fat free of the dating project
+-->
 
+<?php
 //this is my controller for the dating project
 
 //Turn on error reporting
