@@ -30,7 +30,7 @@ $f3->route('GET|POST /info', function () {
         $_SESSION['age'] = $_POST['age'];
         $_SESSION['gender'] = $_POST['gender'];
         $_SESSION['phoneNum'] = $_POST['phoneNum'];
-        header('location: profile.html');
+        header('location: profile');
     }
 
     //we display the information page
@@ -41,10 +41,37 @@ $f3->route('GET|POST /info', function () {
 //next redirect to the profile.html page
 $f3->route('GET|POST /profile', function () {
 
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        //var_dump($_POST);
+        $_SESSION['email'] = $_POST['email'];
+        $_SESSION['state'] = $_POST['state'];
+        $_SESSION['seeking'] = $_POST['seeking'];
+        $_SESSION['bio'] = $_POST['bio'];
+
+        header('location: interest');
+    }
 
     //we display the profile.html page
     $view = new Template();
     echo $view->render('views/profile.html');
+});
+
+$f3->route('GET|POST /interest', function () {
+
+    /* If the form has been submitted, add the data to session
+    * and send the user to the next order form
+    */
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        //var_dump($_POST);
+        $_SESSION['in_door'] = implode(" ", $_POST['in_door']);
+        $_SESSION['out_door'] = implode(' ', $_POST['out_door']);
+
+        header('location: summary');
+    }
+
+    // Display the Interest page
+    $view = new Template();
+    echo $view->render('views/Interest.html');
 });
 
 //Run Fat-Free
