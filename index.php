@@ -64,15 +64,20 @@ $f3->route('GET|POST /interest', function () {
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         //var_dump($_POST);
         $_SESSION['in_door'] = implode(" ", $_POST['in_door']);
-        $_SESSION['out_door'] = implode(' ', $_POST['out_door']);
+        $_SESSION['out_door'] = implode(" ", $_POST['out_door']);
 
         header('location: summary');
     }
 
     // Display the Interest page
     $view = new Template();
-    echo $view->render('views/Interest.html');
+    echo $view->render('views/interest.html');
 });
 
+$f3->route('GET /summary', function () {
+    // Display the summary page
+    $view = new Template();
+    echo $view->render('views/summary.html');
+});
 //Run Fat-Free
 $f3->run();
