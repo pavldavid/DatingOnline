@@ -1,0 +1,44 @@
+<!--
+Author: David Pavlenko
+Date: 5/8/21
+This is the This is the summary page that displays all the information form the form
+-->
+
+<include href="views/head.html"></include>
+
+<div class="container rounded border mt-3">
+    <h1 class="pt-4 pb-3 border-bottom">Summary</h1>
+    <div class="row column_row pt-4">
+        <div class="col">
+            <ul class="list-group">
+                <li class="list-group-item">Name: {{ @SESSION.fName }} {{ @SESSION.lName }}</li>
+                <li class="list-group-item">Gender: {{ @SESSION.gender }}</li>
+                <li class="list-group-item">Age: {{ @SESSION.age }}</li>
+                <li class="list-group-item">Phone: {{ @SESSION.phoneNum }}</li>
+                <li class="list-group-item">Email: {{ @SESSION.email }}</li>
+                <li class="list-group-item">State: {{ @SESSION.state }}</li>
+                <li class="list-group-item">Seeking: {{ @SESSION.seeking }}</li>
+                <li class="list-group-item">Interest: {{ @SESSION.in_door }} {{ @SESSION.out_door }}</li>
+            </ul>
+        </div>
+        <div class="col">
+            <div class="container align-content-center">
+                <img class="w-75" src="/328/DatingOnline/images/blankProfile.png" alt="profile picture">
+            </div>
+            <div class="container pt-2">
+                <h3>Biography</h3>
+                <p class="text-center">{{ @SESSION.bio }}.</p>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex justify-content-center m-3">
+        <a class="btn btn-primary rounded" href="">Contact Me!</a>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>

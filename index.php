@@ -58,9 +58,6 @@ $f3->route('GET|POST /profile', function () {
 
 $f3->route('GET|POST /interest', function () {
 
-    /* If the form has been submitted, add the data to session
-    * and send the user to the next order form
-    */
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         //var_dump($_POST);
         $_SESSION['in_door'] = implode(" ", $_POST['in_door']);
@@ -68,14 +65,13 @@ $f3->route('GET|POST /interest', function () {
 
         header('location: summary');
     }
-
-    // Display the Interest page
+    //we display the interests page
     $view = new Template();
     echo $view->render('views/interest.html');
 });
 
 $f3->route('GET /summary', function () {
-    // Display the summary page
+    //show the summary page
     $view = new Template();
     echo $view->render('views/summary.html');
 });
