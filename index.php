@@ -5,24 +5,41 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-//start a session
-session_start();
-
 //Require autoload file
 require_once('vendor/autoload.php');
 
-//Instantiate Fat-Free
-$f3 = Base::instance();
+//start a session
+session_start();
 
-//Define default route
-$f3->route('GET /', function(){
-    //Display the home page
-    $view = new Template();
-    echo $view->render('views/home.html');
+//Instantiate Fat-Free and controller
+$f3 = Base::instance();
+$con = new Controller($f3);
+
+//Define a default route
+$f3->route('GET /', function () {
+    $GLOBALS['con']->home();
 });
 
+$f3->route('GET|POST /personal', function () {
+    $GLOBALS['controller']->personal();
+});
+
+$f3->route('GET|POST /profile', function () {
+    $GLOBALS['controller']->profile();
+});
+
+$f3->route('GET|POST /interest', function () {
+    $GLOBALS['controller']->interest();
+});
+
+$f3->route('GET /summary', function () {
+    $GLOBALS['controller']->summary();
+});
+
+
 //redirect to the personal info page
-$f3->route('GET|POST /info', function () {
+/**
+ * $f3->route('GET|POST /personalInfo', function () {
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['fName'] = $_POST['fName'];
@@ -63,17 +80,18 @@ $f3->route('GET|POST /interest', function () {
         $_SESSION['in_door'] = implode(" ", $_POST['in_door']);
         $_SESSION['out_door'] = implode(" ", $_POST['out_door']);
 
-        header('location: summary');
+        header('location: sumary');
     }
     //we display the interests page
     $view = new Template();
     echo $view->render('views/interest.html');
 });
 
-$f3->route('GET /summary', function () {
+$f3->route('GET /sumary', function () {
     //show the summary page
     $view = new Template();
-    echo $view->render('views/summary.html');
-});
+    echo $view->render('views/sumary.html');
+});*/
+
 //Run Fat-Free
 $f3->run();
