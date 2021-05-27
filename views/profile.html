@@ -1,3 +1,4 @@
+<!-- 328/DatingOnline/views/profile.html-->
 <!--
 Author: David Pavlenko
 Date: 5/8/21
@@ -13,24 +14,21 @@ This is the profile page that takes information about the person applying
     <div class="col">
         <div class="form-group">
             <label class="h6" for="email">Email</label>
-            <input type="text" class="form-control" id="email" name="email">
+            <input type="text" class="form-control" id="email" name="email" value="{{ $profileEmail}}">
+            <check if="{{ isset(@errors['email']) }}">
+                <span class="err">{{ @errors['email'] }}</span>
+            </check>
         </div>
         <div class="form-group">
             <label class="h6" for="state">State</label>
             <select class="form-control" id="state" name="state">
-                <option value="none">Choose a State</option>
-                <option value="WA">Washington</option>
-                <option value="AZ">Arizona</option>
-                <option value="HI">Hawaii</option>
-                <option value="TX">Texas</option>
-                <option value="MS">Mississippi</option>
-                <option value="ID">Idaho</option>
-                <option value="AL">Alabama</option>
-                <option value="MD">Maryland</option>
-                <option value="UT">Utah</option>
-                <option value="CA">California</option>
-                <option value="PA">Pennsylvania</option>
-                <option value="VA">Virginia</option>
+                <repeat group="{{ @states }}" value="{{ @state }}">
+                    <option value="{{ @state }}"
+                    <check if="{{ @state == @profileState }}">
+                        selected
+                    </check>
+                    >{{ @state }}</option>
+                </repeat>
             </select>
         </div>
         <h6>Seeking</h6>

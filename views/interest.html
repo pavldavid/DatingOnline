@@ -1,3 +1,4 @@
+<!-- 328/DatingOnline/views/interests.html-->
 <!--
 Author: David Pavlenko
 Date: 5/8/21
@@ -11,78 +12,46 @@ This is the interests page that takes in common interests of a person
     <form action="#" method="post" class="row">
         <div class="container col-10">
             <h6 class="pt-3">In-door Interests</h6>
-            <div class="d-flex justify-content-between">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="in_door[]" id="anime" value="anime">
-                    <label class="form-check-label" for="anime">Anime</label>
+            <div class="container mb-4">
+                <div class="row mb-1">
+                    <repeat group="{{ @indoor }}" value="{{ @indoor }}">
+                        <div class="form-check form-check-inline col-2 ml-5 mt-1">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" value="{{ @indoor }}"
+                                       name="in_door[]"
+                                <check if="{{ in_array(@indoor, @interestIndoor) }}">
+                                    checked = "checked"
+                                </check>
+                                >{{ @indoor }}
+                            </label>
+                        </div>
+                    </repeat>
+                    <check if="{{ isset(@errors['indoor']) }}">
+                        <span class="err">{{ @errors['indoor'] }}</span>
+                    </check>
                 </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="in_door[]" id="netflix" value="netflix">
-                    <label class="form-check-label" for="netflix">Netflix</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="in_door[]" id="reading" value="reading">
-                    <label class="form-check-label" for="reading">Reading</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="in_door[]" id="chess" value="chess">
-                    <label class="form-check-label" for="chess">Chess</label>
-                </div>
-            </div>
-            <div class="d-flex justify-content-between">
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="in_door[]" id="dancing" value="dancing">
-                    <label class="form-check-label" for="dancing">Dancing</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="in_door[]" id="gaming" value="gaming">
-                    <label class="form-check-label" for="gaming">Gaming</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="in_door[]" id="cooking" value="cooking">
-                    <label class="form-check-label" for="cooking">Cooking</label>
-                </div>
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" name="in_door[]" id="uno" value="uno">
-                    <label class="form-check-label" for="uno">Uno</label>
-                </div>
+
+
             </div>
             <div>
                 <h6 class="pt-3">Out-door Interests</h6>
-                <div class="d-flex justify-content-between">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="out_door[]" id="golf" value="golf">
-                        <label class="form-check-label" for="golf">Golf</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="out_door[]" id="hiking" value="hiking">
-                        <label class="form-check-label" for="hiking">Hiking</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="out_door[]" id="canoeing" value="canoeing">
-                        <label class="form-check-label" for="canoeing">Canoeing</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="out_door[]" id="walking" value="walking">
-                        <label class="form-check-label" for="walking">Walking</label>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-between">
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="out_door[]" id="swiming" value="swiming">
-                        <label class="form-check-label" for="swiming">Swiming</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="out_door[]" id="running" value="running">
-                        <label class="form-check-label" for="running">Running</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="out_door[]" id="climbing" value="climbing">
-                        <label class="form-check-label" for="climbing">Climbing</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="out_door[]" id="fishing" value="fishing">
-                        <label class="form-check-label" for="fishing">Fishing</label>
+                <div class="container">
+                    <div class="row mb-1">
+                        <repeat group="{{ @outdoor }}" value="{{ @outdoor }}">
+                            <div class="form-check form-check-inline col-2 ml-5 mt-1">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" value="{{ @outdoor }}"
+                                           name="out_door[]"
+                                    <check if="{{ in_array(@outdoor, @interestOutdoor) }}">
+                                        checked = "checked"
+                                    </check>
+                                    >{{ @outdoor }}
+                                </label>
+                            </div>
+                        </repeat>
+                        <check if="{{ isset(@errors['outdoor']) }}">
+                            <span class="err">{{ @errors['outdoor'] }}</span>
+                        </check>
                     </div>
                 </div>
         </div>
