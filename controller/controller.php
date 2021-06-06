@@ -5,29 +5,21 @@ class Controller
     private $_f3;
 
 
-    function __construct($f3)
+    public function __construct($f3)
     {
         $this->_f3 = $f3;
     }
 
-    function home()
+    public function home()
     {
         // Display the home page
         $view = new Template();
         echo $view->render('views/home.html');
     }
 
-    function info(){
+    public function info(){
 
         $_SESSION = array();
-        $userInfo = array();
-
-
-        $infoFirst = "";
-        $infoLast = "";
-        $infoAge = "";
-        $infoNum = "";
-        $infoGen = "";
 
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -37,10 +29,18 @@ class Controller
             $infoGen = $_POST['gender'];
             $infoNum = $_POST['phoneNum'];
 
+            if ($_POST['premium'] == 'premium'){
+                $memberStatus = new PremiumMember();
+            }
+            else{
+                $memberStatus = new Member();
+            }
+
+
 
             if(Validation::validName($infoFirst))
             {
-                $_SESSION['fName'] = $infoFirst;
+                $memberStatus->setFName($infoFirst);
             }else
             {
                 $this->_f3->set('errors[fname]', 'Please enter a valid First Name');
@@ -48,7 +48,7 @@ class Controller
 
             if (Validation::validName($infoLast))
             {
-                $_SESSION['lname'] = $infoLast;
+                $memberStatus->setLName($infoLast);
             }else
             {
                 $this->_f3->set('errors[lname]', 'Please enter a valid Last Name');
@@ -56,13 +56,13 @@ class Controller
 
             if (Validation::validAge($infoAge))
             {
-                $_SESSION['age'] = $infoAge;
+                $memberStatus->setAge($infoAge);
             } else {
                 $this->_f3->set('errors["age"]', "Please enter a valid age");
             }
 
             if (Validation::validPhone($infoNum)) {
-                $_SESSION['phoneNum'] = $infoNum;
+                $memberStatus->setPhone($infoNum);
             } else {
                 $this->_f3->set('errors["number"]', "Please enter a valid phone number");
             }
@@ -72,6 +72,7 @@ class Controller
             $this->_f3->set('infoNum', $infoNum);
             $this->_f3->set('infoGen', $infoGen);
             if (empty($this->_f3->get('errors'))) {
+                $_SESSION['memberStatus'] = $memberStatus;
                 header('location: profile');
             }
         }
@@ -81,13 +82,12 @@ class Controller
         echo $view->render('views/info.html');
     }
 
-    function profile(){
-        $profileEmail = "";
-        $profileState = "";
-        $profileSeeking = "";
-        $profileBio = "";
-
-
+    public function profile(){
+        $memberStatus = $_SESSION['memberStatus'];
+        /*echo "<pre>";
+        var_dump($memberStatus);
+        echo "</pre>";
+            die();*/
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //var_dump($_POST);
             $profileEmail = $_POST['email'];
@@ -96,10 +96,13 @@ class Controller
             $profileBio = $_POST['bio'];
 
             if (Validation::validEmail($profileEmail)){
-                $_SESSION['email'] = $profileEmail;
+                $memberStatus->setEmail($profileEmail);
             }else {
                 $this->_f3->set('errors["email"]', "Please enter a valid email address");
             }
+
+            $memberStatus->setSeeking($profileSeeking);
+            $memberStatus->setState($)
 
             $_SESSION['seeking'] = $profileSeeking;
             $_SESSION['state'] = $profileState;
@@ -121,7 +124,7 @@ class Controller
         echo $view->render('views/profile.html');
     }
 
-    function interest(){
+    public function interest(){
         $interestIndoor = array();
         $interestOutdoor = array();
 
@@ -157,7 +160,7 @@ class Controller
         echo $view->render('views/interest.html');
     }
 
-    function summary(){
+    public function summary(){
         $view = new Template();
         echo $view->render('views/summary.html');
     }
