@@ -1,21 +1,16 @@
 <?php
-/* validation.php
- * Validate data for the diner app
- *
- */
 
 class Validation
 {
-
-    static function validName($name)
+    static function validName($name): bool
     {
-        if(preg_match('/^\pL+$/u' ,$name) && strlen(trim($name)) >= 2){
+        if(!empty($name) && (preg_match('/^[A-Za-z]+$/' ,$name) == 1 )){
             return true;
         }
         return false;
     }
 
-    static function validAge($age)
+    static function validAge($age): bool
     {
         if (($age >= 18 || $age <= 118) && (!empty($age) && is_numeric($age))) {
             return true;
@@ -24,18 +19,18 @@ class Validation
 
     }
 
-    static function validPhone($phone)
+    static function validPhone($phone): bool
     {
-        $regex = "^[(]?\d{3}[)]?[(\s)?.-]\d{3}[\s.-]\d{4}$";
+        $regex = "/^[(]?\d{3}[)]?[(\s)?.-]\d{3}[\s.-]\d{4}$/";
 
-        if (preg_match($regex, $phone) && !empty($phone)) {
+        if (!empty($phone) && (preg_match($regex, $phone) == 1)) {
             return true;
         }
         return false;
 
     }
 
-    static function validEmail($email)
+    static function validEmail($email): bool
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL) && !empty($email)) {
             return true;
@@ -43,27 +38,30 @@ class Validation
         return false;
     }
 
-    static function validOutdoor($outdoor)
+    static function validOutdoor($outdoor): bool
     {
-        $outdoorCheck = DataLayer::getOutdoor();
+        $outdoorCheck = DatingDatalayer::getOutdoor();
 
         foreach ($outdoor as $choice) {
-            if (!in_array($choice, $outdoorCheck)) {
+            if (!empty($outdoor) && !in_array($choice, $outdoorCheck)) {
                 return false;
             }
         }
         return true;
     }
 
-    static function validIndoor($indoor)
+    static function validIndoor($indoor): bool
     {
-        $indoorCheck = DataLayer::getIndoor();
+        $indoorCheck = DatingDatalayer::getIndoor();
 
         foreach ($indoor as $choice) {
-            if (!in_array($choice, $indoorCheck)) {
+            if (!empty($indoor) && !in_array($choice, $indoorCheck)) {
                 return false;
             }
         }
         return true;
     }
 }
+
+
+

@@ -2,7 +2,8 @@
 
 class Controller
 {
-    private $_f3; //router
+    private $_f3;
+
 
     function __construct($f3)
     {
@@ -11,146 +12,154 @@ class Controller
 
     function home()
     {
-        //Display the home page
+        // Display the home page
         $view = new Template();
         echo $view->render('views/home.html');
     }
 
-    function personal()
-    {
-        $_SESSION = array();
-        $_SESSION['profile'] = new Profile();
+    function info(){
 
-        $userFirstName = "";
-        $userLastName = "";
-        $userAge = "";
-        $userPhoneNum = "";
+        $_SESSION = array();
+        $userInfo = array();
+
+
+        $infoFirst = "";
+        $infoLast = "";
+        $infoAge = "";
+        $infoNum = "";
+        $infoGen = "";
+
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //var_dump($_POST);
-            $_SESSION['fName'] = $_POST['fName'];
-            $_SESSION['lName'] = $_POST['lName'];
-            $_SESSION['age'] = $_POST['age'];
-            $_SESSION['gender'] = $_POST['gender'];
-            $_SESSION['phoneNum'] = $_POST['phoneNum'];
+            $infoFirst = $_POST['fname'];
+            $infoLast = $_POST['lname'];
+            $infoAge = $_POST['age'];
+            $infoGen = $_POST['gender'];
+            $infoNum = $_POST['phoneNum'];
+
+
+            if(Validation::validName($infoFirst))
+            {
+                $_SESSION['fName'] = $infoFirst;
+            }else
+            {
+                $this->_f3->set('errors[fname]', 'Please enter a valid First Name');
+            }
+
+            if (Validation::validName($infoLast))
+            {
+                $_SESSION['lname'] = $infoLast;
+            }else
+            {
+                $this->_f3->set('errors[lname]', 'Please enter a valid Last Name');
+            }
+
+            if (Validation::validAge($infoAge))
+            {
+                $_SESSION['age'] = $infoAge;
+            } else {
+                $this->_f3->set('errors["age"]', "Please enter a valid age");
+            }
+
+            if (Validation::validPhone($infoNum)) {
+                $_SESSION['phoneNum'] = $infoNum;
+            } else {
+                $this->_f3->set('errors["number"]', "Please enter a valid phone number");
+            }
+            $this->_f3->set('infoFirst', $infoFirst);
+            $this->_f3->set('infoLast', $infoLast);
+            $this->_f3->set('infoAge', $infoAge);
+            $this->_f3->set('infoNum', $infoNum);
+            $this->_f3->set('infoGen', $infoGen);
+            if (empty($this->_f3->get('errors'))) {
+                header('location: profile');
+            }
         }
 
-        if(Validation::validName($userFirstName) && Validation::validName($userLastName)) {
-            $_SESSION['profile']->setName($userFirstName,$userLastName);
-        }
-        else{
-            ////////FIX///////////
-            $this->_f3->set('errors["name"]', 'Please enter a valid Name');
-        }
-
-        if(Validation::validAge($userAge)) {
-            $_SESSION['profile']->setAge($userAge);
-        }
-        else{
-            ////////FIX///////////
-            $this->_f3->set('errors["age"]', 'Please enter a correct age');
-        }
-
-        if(Validation::validPhone($userPhoneNum)) {
-            $_SESSION['profile']->setPhone($userPhoneNum);
-        }
-        else{
-            ////////FIX///////////
-            $this->_f3->set('errors["phone"]', 'Please enter a correct US phone number');
-        }
-        if(empty($this->_f3->get('errors'))){
-            header('location: profile');
-        }
-
-        $this->_f3->set('userfName', $userFirstName);
-        $this->_f3->set('userlName', $userLastName);
-        $this->_f3->set('userAge', $userAge);
-        $this->_f3->set('userGender', $_SESSION['gender']);
-        $this->_f3->set('user_pNum', $userPhoneNum);
-
+        //we display the information page
         $view = new Template();
-        echo $view->render('views/personalInfo.html');
+        echo $view->render('views/info.html');
     }
 
     function profile(){
-        $_SESSION = array();
+        $profileEmail = "";
+        $profileState = "";
+        $profileSeeking = "";
+        $profileBio = "";
 
-        $_SESSION['profile'] = new Profile();
-
-        $userEmail = "";
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //var_dump($_POST);
-            $_SESSION['email'] = $_POST['email'];
-            $_SESSION['state'] = $_POST['state'];
-            $_SESSION['seeking'] = $_POST['seeking'];
-            $_SESSION['bio'] = $_POST['bio'];
+            $profileEmail = $_POST['email'];
+            $profileState = $_POST['state'];
+            $profileSeeking = $_POST['seeking'];
+            $profileBio = $_POST['bio'];
+
+            if (Validation::validEmail($profileEmail)){
+                $_SESSION['email'] = $profileEmail;
+            }else {
+                $this->_f3->set('errors["email"]', "Please enter a valid email address");
+            }
+
+            $_SESSION['seeking'] = $profileSeeking;
+            $_SESSION['state'] = $profileState;
+            $_SESSION['bio'] = $profileBio;
+
+            $this->_f3->set('profileEmail', $profileEmail);
+            $this->_f3->set('profileState', $profileState);
+            $this->_f3->set('profileSeeking', $profileSeeking);
+            $this->_f3->set('profileBio', $profileBio);
+
+
+            if (empty($this->_f3->get('errors'))) {
+                header('location: interest');
+            }
         }
-
-        if(Validation::validEmail($userEmail)) {
-            $_SESSION['profile']->setEmail($userEmail);
-        }
-
-        else {
-            // FIX THIS LATER
-            $this->_f3->set('errors["email"]', 'Please enter a valid email');
-        }
-
-        if (empty($this->_f3->get('errors'))) {
-            header('location: interest');
-        }
-
-        $this->_f3->set('userEmail', $userEmail);
-        $this->_f3->set('userState', $_SESSION['state']);
-        $this->_f3->set('userSeeking', $_SESSION['seeking']);
-        $this->_f3->set('userBio', $_SESSION['bio']);
-
+        $this->_f3->set('states', DatingDatalayer::getStates());
+        //we display the profile.html page
         $view = new Template();
         echo $view->render('views/profile.html');
     }
 
-    function interest()
-    {
-        $userOutdoor = array();
-        $userIndoor = array();
+    function interest(){
+        $interestIndoor = array();
+        $interestOutdoor = array();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            if (!empty($_POST['interest'])) {
 
-                if (Validation::validOutdoor($userOutdoor)) {
-                    $_SESSION['out_door']->setOutDoor(implode(", ", $userOutdoor));
-                }
-                else {
-                    $this->_f3->set('errors["activity"]', 'Invalid selection');
-                }
+            $interestIndoor = $_POST['in_door'];
+            $interestOutdoor = $_POST['out_door'];
 
-                if (Validation::validOutdoor($userIndoor)) {
-                    $_SESSION['in_door']->setInDoor(implode(", ", $userIndoor));
-                }
-                else {
-                    $this->_f3->set('errors["activity"]', 'Invalid selection');
-                }
-                if (empty($this->_f3->get('errors'))) {
-                    header('location: sumary');
-                }
+            var_dump($_POST);
+            if(Validation::validIndoor($interestIndoor)){
+                $_SESSION['indoor'] = implode(" ", $interestIndoor);
+            }else {
+                $this->_f3->set('errors["indoor"]', 'Please enter a valid interest');
             }
+            if (Validation::validOutdoor($interestOutdoor)) {
+                $_SESSION['outdoor'] = implode(", ", $interestOutdoor);
+            } else {
+                $this->_f3->set('errors["outdoor"]', 'Please enter a valid interest');
+            }
+            if (empty($this->_f3->get('errors'))) {
+                header('location: sumary');
+            }
+
         }
+        $this->_f3->set('indoor', DatingDatalayer::getIndoor());
+        $this->_f3->set('outdoor', DatingDatalayer::getOutdoor());
 
-        $this->_f3->set('outdoor', DataLayer::getOutdoor());
-        $this->_f3->set('indoor', DataLayer::getIndoor());
+        $this->_f3->set('interestIndoor', $interestIndoor);
+        $this->_f3->set('interestOutdoor', $interestOutdoor);
 
-        $this->_f3->set('userOutdoorIntrest', $userOutdoor);
-        $this->_f3->set('userIndoorIntrest', $userIndoor);
-
-        // Display the Interest page
+        //we display the interests page
         $view = new Template();
         echo $view->render('views/interest.html');
     }
 
-    function sumary(){
+    function summary(){
         $view = new Template();
-        echo $view->render('views/sumary.html');
-
-        unset($_SESSION['profile']);
+        echo $view->render('views/summary.html');
     }
+
 }
