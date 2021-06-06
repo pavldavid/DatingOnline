@@ -88,6 +88,7 @@ class Controller
         var_dump($memberStatus);
         echo "</pre>";
             die();*/
+
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             //var_dump($_POST);
             $profileEmail = $_POST['email'];
@@ -102,11 +103,9 @@ class Controller
             }
 
             $memberStatus->setSeeking($profileSeeking);
-            $memberStatus->setState($)
+            $memberStatus->setState($profileState);
+            $memberStatus->setBio($profileBio);
 
-            $_SESSION['seeking'] = $profileSeeking;
-            $_SESSION['state'] = $profileState;
-            $_SESSION['bio'] = $profileBio;
 
             $this->_f3->set('profileEmail', $profileEmail);
             $this->_f3->set('profileState', $profileState);
@@ -115,7 +114,12 @@ class Controller
 
 
             if (empty($this->_f3->get('errors'))) {
-                header('location: interest');
+                if ($memberStatus instanceof PremiumMember){
+                    header('location: interest');
+                }
+                else{
+                    header('location: sumary');
+                }
             }
         }
         $this->_f3->set('states', DatingDatalayer::getStates());
@@ -125,6 +129,7 @@ class Controller
     }
 
     public function interest(){
+
         $interestIndoor = array();
         $interestOutdoor = array();
 
@@ -161,6 +166,11 @@ class Controller
     }
 
     public function summary(){
+        $memberStatus = $_SESSION['memberStatus'];
+        echo "<pre>";
+        var_dump($memberStatus);
+        echo "</pre>";
+        die();
         $view = new Template();
         echo $view->render('views/summary.html');
     }
