@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class DatingDatalayer is where all aur data options are stored
+ */
 class DatingDatalayer{
     static function getOutdoor(){
         return array("Golf", "Hiking", "Canoeing", "Walking", "Swimming", "Running", "Climbing", "Fishing");

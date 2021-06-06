@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Member is the standard member
+ */
 class Member
 {
     private $_fName;

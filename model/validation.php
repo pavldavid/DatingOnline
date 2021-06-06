@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Validation is the what has all our validation
+ */
 class Validation
 {
     static function validName($name): bool

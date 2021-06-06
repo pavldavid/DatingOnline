@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class Controller for the dating page
+ */
 class Controller
 {
     private $_f3;
@@ -66,6 +69,7 @@ class Controller
             } else {
                 $this->_f3->set('errors["number"]', "Please enter a valid phone number");
             }
+            $memberStatus->setGender($infoGen);
             $this->_f3->set('infoFirst', $infoFirst);
             $this->_f3->set('infoLast', $infoLast);
             $this->_f3->set('infoAge', $infoAge);
@@ -123,12 +127,18 @@ class Controller
             }
         }
         $this->_f3->set('states', DatingDatalayer::getStates());
+        $_SESSION['memberStatus'] = $memberStatus;
         //we display the profile.html page
         $view = new Template();
         echo $view->render('views/profile.html');
     }
 
     public function interest(){
+        $memberStatus = $_SESSION['memberStatus'];
+        /*echo "<pre>";
+        var_dump($memberStatus);
+        echo "</pre>";
+            die();*/
 
         $interestIndoor = array();
         $interestOutdoor = array();
@@ -140,12 +150,12 @@ class Controller
 
             var_dump($_POST);
             if(Validation::validIndoor($interestIndoor)){
-                $_SESSION['indoor'] = implode(" ", $interestIndoor);
+                $memberStatus->setInDoorInterests($interestIndoor);
             }else {
                 $this->_f3->set('errors["indoor"]', 'Please enter a valid interest');
             }
             if (Validation::validOutdoor($interestOutdoor)) {
-                $_SESSION['outdoor'] = implode(", ", $interestOutdoor);
+                $memberStatus->setOutDoorInterests($interestOutdoor);
             } else {
                 $this->_f3->set('errors["outdoor"]', 'Please enter a valid interest');
             }
@@ -159,7 +169,7 @@ class Controller
 
         $this->_f3->set('interestIndoor', $interestIndoor);
         $this->_f3->set('interestOutdoor', $interestOutdoor);
-
+        $_SESSION['memberStatus'] = $memberStatus;
         //we display the interests page
         $view = new Template();
         echo $view->render('views/interest.html');
@@ -167,12 +177,8 @@ class Controller
 
     public function summary(){
         $memberStatus = $_SESSION['memberStatus'];
-        echo "<pre>";
-        var_dump($memberStatus);
-        echo "</pre>";
-        die();
         $view = new Template();
-        echo $view->render('views/summary.html');
+        echo $view->render('views/sumary.html');
     }
 
 }

@@ -12,14 +12,17 @@ This is the This is the summary page that displays all the information form the 
     <div class="row column_row pt-4">
         <div class="col">
             <ul class="list-group">
-                <li class="list-group-item">Name: {{ @SESSION.fName }} {{ @SESSION.lName }}</li>
-                <li class="list-group-item">Gender: {{ @SESSION.gender }}</li>
-                <li class="list-group-item">Age: {{ @SESSION.age }}</li>
-                <li class="list-group-item">Phone: {{ @SESSION.phoneNum }}</li>
-                <li class="list-group-item">Email: {{ @SESSION.email }}</li>
-                <li class="list-group-item">State: {{ @SESSION.state }}</li>
-                <li class="list-group-item">Seeking: {{ @SESSION.seeking }}</li>
-                <li class="list-group-item">Interest: {{ @SESSION.in_door }} {{ @SESSION.out_door }}</li>
+                <li class="list-group-item">Name: {{ @SESSION.memberStatus->getFname() }} {{ @SESSION.memberStatus->getLname() }}</li>
+                <li class="list-group-item">Gender: {{ @SESSION.memberStatus->getGender() }}</li>
+                <li class="list-group-item">Age: {{ @SESSION.memberStatus->getAge()}}</li>
+                <li class="list-group-item">Phone: {{ @SESSION.memberStatus->getPhone() }}</li>
+                <li class="list-group-item">Email: {{ @SESSION.memberStatus->getEmail() }}</li>
+                <li class="list-group-item">State: {{ @SESSION.memberStatus->getState() }}</li>
+                <li class="list-group-item">Seeking: {{ @SESSION.memberStatus->getSeeking() }}</li>
+                <check if="{{ @SESSION.memberStatus instanceof PremiumMember }}">
+                    <li class="list-group-item">Interests: {{ implode(" ", @SESSION.memberStatus->getIndoorInterests()) }}
+                        {{ implode(" ", @SESSION.memberStatus->getOutdoorInterests()) }}</li>
+                </check>
             </ul>
         </div>
         <div class="col">
@@ -28,7 +31,7 @@ This is the This is the summary page that displays all the information form the 
             </div>
             <div class="container pt-2">
                 <h3>Biography</h3>
-                <p class="text-center">{{ @SESSION.bio }}.</p>
+                <p class="text-center">{{ @SESSION.memberStatus->getBio() }}</p>
             </div>
         </div>
     </div>

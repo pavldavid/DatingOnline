@@ -1,5 +1,8 @@
 <?php
 
+/**
+ * Class PremiumMember is the premium member that sees the interests
+ */
 class PremiumMember extends Member {
     private $_inDoorInterests;
     private $_outDoorInterests;
